@@ -11,13 +11,20 @@ sap.ui.define([
 		 * @memberOf iotkid.view.overviewPage
 		 */
 		onInit: function() {
-			var sItemPath = this.getView().data("itemPath");
+		this.getView().addEventDelegate({
+				onBeforeShow: function(oEvent) {
+				console.log("onBeforeShow");
+					var sItemPath = this.getView().data("sPath");
 			console.log(sItemPath);
+				}.bind(this)
+			});
+		
 			},
 			onHome: function() {
 				sap.ui.getCore().byId("__xmlview0--appId").back();
 				
-			}
+			},
+			
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -33,10 +40,11 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf iotkid.view.overviewPage
 		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
+			// onAfterRendering: function() {
+			
+			// },
 
+		
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 		 * @memberOf iotkid.view.overviewPage

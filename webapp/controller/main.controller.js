@@ -33,13 +33,13 @@ sap.ui.define([
 			
 		var sPath = oEvent.getSource().getBindingContext("odataModel").getPath();
 		var sId = "overviewpage";
-		var oCore = sap.ui.getCore();
-		var oApp = oCore.byId("__xmlview0--appId");
+	
+		var oApp = sap.ui.getCore().byId("__xmlview0--appId");
 		
-		var overviewPage = oCore.byId(sId);
+		var overviewPage = oApp.getPage(sId);
 		
 			if(overviewPage) {
-				overviewPage.data("itemPath",sPath);
+				overviewPage.data("sPath",sPath);
 				oApp.to(overviewPage);
 			}else{
 			overviewPage = sap.ui.view({
@@ -47,7 +47,7 @@ sap.ui.define([
 					viewName: "iotkid.view.overviewPage",
 					type: sap.ui.core.mvc.ViewType.XML
 				});	
-				overviewPage.data("itemPath",sPath);
+				overviewPage.data("sPath",sPath);
 				oApp.addPage(overviewPage);
 				oApp.to(overviewPage);
 			}

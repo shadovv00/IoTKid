@@ -6,7 +6,7 @@
 				<content>
 					
 						<TileContainer id="container" tileDelete="handleTileDelete" tiles="{odataModel>/data}">
-						<StandardTile  icon="sap-icon://unwired"  number="{odataModel>temp}" numberUnit="℃" title="{odataModel>name}" info="{odataModel>info}"
+						<StandardTile  icon="sap-icon://product"  number="{odataModel>temp}" numberUnit="℃" title="{odataModel>name}" info="{odataModel>info}"
 							infoState="{odataModel>infoState}" press="onPress"/>
 					</TileContainer>
 			
