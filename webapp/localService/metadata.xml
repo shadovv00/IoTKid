@@ -1,0 +1,32 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+        <Schema
+            xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="iot">
+            <EntityType Name="GenericMessagesType">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="BAROMBAR" Type="Edm.Int32"/>
+                <Property Name="CREATION_TS" Type="Edm.DateTime"/>
+                <Property Name="DEVICEID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="GATEWAYID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="HUMIDITY" Type="Edm.Int32"/>
+                <Property Name="LEVELX" Type="Edm.Int32"/>
+                <Property Name="LEVELY" Type="Edm.Int32"/>
+                <Property Name="LEVELZ" Type="Edm.Int32"/>
+                <Property Name="MSGID" Type="Edm.Int32"/>
+                <Property Name="TEMP" Type="Edm.String" MaxLength="255"/>
+                <Property Name="VIBAMP" Type="Edm.Int32"/>
+                <Property Name="VIBFREQ" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityContainer Name="gensense" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="GenericMessages" EntityType="iot.GenericMessagesType"/>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

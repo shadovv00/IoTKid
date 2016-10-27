@@ -11,11 +11,20 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"sourceTemplate": {
-			"id": "ui5template.basicSAPUI5ApplicationProject",
-			"version": "1.32.0"
+			"id": "servicecatalog.connectivityComponent",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"gensense.xsodata": {
+				"uri": "/tnv/iot/services/gensense.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
 		}
 	},
-
 	"sap.ui": {
 		"_version": "1.1.0",
 		"technology": "UI5",
@@ -37,7 +46,6 @@
 			"sap_bluecrystal"
 		]
 	},
-
 	"sap.ui5": {
 		"_version": "1.1.0",
 		"rootView": {
@@ -63,33 +71,34 @@
 					"bundleName": "iotkid.i18n.i18n"
 				}
 			},
-			"odataModel":{
-				"type" : "sap.ui.model.json.JSONModel",
-				"settings":{
-				"data": [{
-						"id": 1,
-						"name": "Milkpak 1",
-						"temp": "7",
-						"infoState": "Success",
-						"info": "juiste temperatuur"
-					}, {
-						"id": 2,
-						"name": "Milkpak 2",
-						"temp": "12",
-						"infoState": "Error",
-						"info": "te warm"
-					}
-
-				]
+			"odataModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {
+					"data": [
+						{
+							"id": 1,
+							"name": "Milkpak 1",
+							"temp": "7",
+							"infoState": "Success",
+							"info": "juiste temperatuur"
+						},
+						{
+							"id": 2,
+							"name": "Milkpak 2",
+							"temp": "12",
+							"infoState": "Error",
+							"info": "te warm"
+						}
+					]
 				}
-
-			
 			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		}
 	}
 }

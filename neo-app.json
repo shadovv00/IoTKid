@@ -18,6 +18,14 @@
         "entryPath": "/test-resources"
       },
       "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/tnv/iot/services/gensense.xsodata",
+      "target": {
+        "type": "destination",
+        "name": "IOTKIT"
+      },
+      "description": "IOTKIT"
     }
   ],
   "sendWelcomeFileRedirect": true
