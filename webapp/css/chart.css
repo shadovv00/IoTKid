@@ -1,0 +1,44 @@
+body {
+    font: 12px Arial;
+}
+circle{
+ fill:#008BA9;
+ /*r: 5px;*/
+    r: 4px;
+    stroke: white;
+    stroke-width: 2px;
+}
+path {
+    stroke: steelblue;
+    stroke-width: 3;
+    fill: none;
+}
+ .axis path, .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 0.7;
+    
+} 
+.top-line{
+  stroke:lightgreen;
+}
+.bottom-line{
+  stroke:orange;
+}
+.y.axis path {
+  display: none;
+}
+.x.axis line{
+  display:none;
+}
+circle.top-line-dot{
+  fill:lightgreen;
+}
+circle.bottom-line-dot{
+  fill:orange;
+}
+.x.axis .domain{
+  fill: none;
+  stroke: grey;
+  stroke-width:0.7px;
+}
