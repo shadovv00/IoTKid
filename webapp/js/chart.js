@@ -32,7 +32,7 @@ function createChart(){
 	      return y(d.close);
 	    });
 	
-	var svg = el
+	var svg = d3.select("body")
 	    .append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
