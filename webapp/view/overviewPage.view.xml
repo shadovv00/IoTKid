@@ -1,7 +1,7 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="iotkid.controller.overviewPage"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-	<Toolbar class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin">
+		<Toolbar class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin">
 			<Button text="Home" press="onHome" type="Back"/>
-				
+			<Text id="testtext"></Text>
 		</Toolbar >
 </mvc:View>

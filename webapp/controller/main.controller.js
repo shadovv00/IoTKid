@@ -27,6 +27,21 @@ sap.ui.define([
 			// sap.ui.getCore().setModel(oModel);
 			// var m2 = sap.ui.getCore().getModel();
 			// this.getView().setModel(oModel);
+			
+	var uModel=new sap.ui.model.json.JSONModel();
+		// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages?$top=1000&$orderby=CREATION_TS desc", {}, false, "GET");
+		// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+		// +"?$filter=((DEVICEID eq "++")  or (DEVICEID eq "+thisKpiId+") )"
+		uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+			+"?$filter=((DEVICEID eq '0059AC00001502BD')  or (DEVICEID eq '0059AC00001502B5') or (DEVICEID eq '0059AC00001502C2') )"
+			+"&$apply=groupby((DEVICEID,TEMP))"
+			+"&$top=50&$orderby=TEMP desc"
+			,{}, false, "GET");
+		console.log(uModel.getData().d.results);
+		var i;
+		for (i = 0; i < uModel.getData().d.results.length; i++) { 
+				console.log(uModel.getData().d.results[i].DEVICEID);
+		}
 
 		},
 		onPress: function(oEvent) {
