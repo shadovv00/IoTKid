@@ -14,13 +14,13 @@ sap.ui.define([
 		onInit: function() {
 			
 			this.getView().addEventDelegate({
-				onBeforeShow: function(oEvent) {
-				console.log("onBeforeShow");
-					var sItemPath = this.getView().data("sPath");
-					console.log(sItemPath);
-					// var el = $("#overviewpage--chartContainer");
-					createChart();
-				}.bind(this)
+				// onBeforeShow: function(oEvent) {
+				// 	console.log("onBeforeShow");
+				// 	var sItemPath = this.getView().data("sPath");
+				// 	console.log(sItemPath);
+				// 	// var el = $("#overviewpage--chartContainer");
+				// 	this.buildChart("0059AC00001502B5");
+				// }.bind(this)
 			});
 			
 			// this.webSocket = null;
@@ -44,6 +44,58 @@ sap.ui.define([
 				
 			},
 			
+			buildChart: function(deviceId) {
+			var uModel=new sap.ui.model.json.JSONModel();
+		// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages?$top=1000&$orderby=CREATION_TS desc", {}, false, "GET");
+		// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+		// +"?$filter=((DEVICEID eq "++")  or (DEVICEID eq "+thisKpiId+") )"
+		
+			// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+			// 				// +"?$filter=((DEVICEID eq '"+deviceId+"') and year(CREATION_TS) eq 2016) and month(CREATION_TS) eq 10)"
+			// 				+"?$filter=((DEVICEID eq '"+deviceId+"') and year(CREATION_TS) eq 2016) and month(CREATION_TS) eq 9)"
+			// 				+"&$top=7&$orderby=CREATION_TS desc"
+			// 				,{}, false, "GET");
+
+				uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+					// +"?$filter=((DEVICEID eq '0059AC00001502BD')   and year(CREATION_TS) eq "+thisDate.getYear()+"  and month(CREATION_TS) eq "+thisDate.getMonth()+"  and day(CREATION_TS) eq "+thisDate.getDate()+"  )"
+					+"?$filter=((DEVICEID eq '0059AC00001502BD'))"
+					+"&$top=10&$orderby=CREATION_TS desc"
+					,{}, false, "GET");
+				console.log(uModel.getData().d.results[0]);
+
+			// var nowDate=new Date().getTime();
+				// console.log(uModel.getData().d.results[0].CREATION_TS);
+				// console.log(uModel.getData().d.results[0].CREATION_TS  .slice(6, -2));
+			var nowDate=new Date(+uModel.getData().d.results[0].CREATION_TS  .slice(6, -2)).getTime();
+				// console.log(nowDate);
+			var iii, thisDate;
+			var dateForChart=[];
+			for (iii = 0; iii < 7; iii++) { 
+				thisDate=new Date(nowDate-86400000*iii);
+				// console.log(thisDate.toISOString().slice(0, -5));
+
+				uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+					// +"?$filter=((DEVICEID eq '0059AC00001502BD')   and year(CREATION_TS) eq "+thisDate.getYear()+"  and month(CREATION_TS) eq "+thisDate.getMonth()+"  and day(CREATION_TS) eq "+thisDate.getDate()+"  )"
+					+"?$filter=((DEVICEID eq '0059AC00001502BD')   and (CREATION_TS le datetime'"+thisDate.toISOString().slice(0, -5)+"')    )"
+					+"&$top=1&$orderby=CREATION_TS desc"
+					,{}, false, "GET");
+				// console.log(uModel.getData().d.results[0]);
+				dateForChart.push(uModel.getData().d.results[0])
+			}
+
+
+				uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+					// +"?$filter=((DEVICEID eq '0059AC00001502BD')   and year(CREATION_TS) eq "+thisDate.getYear()+"  and month(CREATION_TS) eq "+thisDate.getMonth()+"  and day(CREATION_TS) eq "+thisDate.getDate()+"  )"
+					+"?$filter=((DEVICEID eq '0059AC00001502BD')   and (CREATION_TS le datetime'"+thisDate.toISOString().slice(0, -5)+"')    )"
+					+"&$top=30000&$orderby=CREATION_TS desc"
+					,{}, false, "GET");
+			dateForChart=uModel.getData().d.results;
+			
+			
+			
+			createChart( $("#overviewpage--chartContainer"), dateForChart);
+			},
+
 
 		// 	var sUrl = "wss://iotkita28d5365e.hana.ondemand.com/gen_connectors/iotwebsocketproxy/loriot";
 		// 	this.webSocket = new WebSocket(sUrl).attachMessage(this.webSocketMessageRecieved, this).attachError(this.webSocketError,
@@ -184,9 +236,12 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf iotkid.view.overviewPage
 		 */
-			// onAfterRendering: function() {
-			
-			// },
+			onAfterRendering: function() {
+				// onBeforeShow: function(oEvent) {
+
+					// var el = $("#overviewpage--chartContainer");
+					this.buildChart("0059AC00001502B5");
+			},
 
 		
 		/**
