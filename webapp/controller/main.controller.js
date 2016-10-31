@@ -143,6 +143,7 @@ sap.ui.define([
 		},
 
 		onPress: function(oEvent) {
+			// sap.ui.getCore().byId("__xmlview0").setBusy(true);
 
 			var sPath = oEvent.getSource().getBindingContext("jsonModel").getPath();
 			var sId = "overviewpage";
@@ -176,6 +177,12 @@ sap.ui.define([
 		},
 		onAfterRendering: function() {
 			this.openConnection();
+			this.getView().addEventDelegate({
+				onAfterShow: function(oEvent) {
+					// sap.ui.getCore().byId("__xmlview0").setBusy(false);
+				}.bind(this)					
+			});
+			
 		}
 
 	});
