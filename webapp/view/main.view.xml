@@ -5,9 +5,9 @@
 				
 				<content>
 					
-						<TileContainer id="container" tileDelete="handleTileDelete" tiles="{odataModel>/data}">
-						<StandardTile  icon="sap-icon://product"  number="{odataModel>temp}" numberUnit="℃" title="{odataModel>name}" info="{odataModel>info}"
-							infoState="{odataModel>infoState}" press="onPress"/>
+						<TileContainer id="container" tileDelete="handleTileDelete" tiles="{jsonModel>/data}">
+						<StandardTile  icon="sap-icon://product"  number="{jsonModel>TEMP}" numberUnit="℃" title="{jsonModel>name}" info="{jsonModel>info}"
+							infoState="{jsonModel>infoState}" press="onPress"/>
 					</TileContainer>
 			
 				</content>

@@ -74,31 +74,32 @@
 			"odataModel": {
 				"type": "sap.ui.model.json.JSONModel",
 				"settings": {
-					"data": [
-						{
-							"id": 1,
-							"name": "Milkpak 1",
-							"temp": "7",
-							"infoState": "Success",
-							"info": "juiste temperatuur"
-						},
-						{
-							"id": 2,
-							"name": "Milkpak 2",
-							"temp": "12",
-							"infoState": "Error",
-							"info": "te warm"
-						}
-					]
+					"data": [{
+						"id": 1,
+						"name": "Milkpak 1",
+						"temp": "7",
+						"infoState": "Success",
+						"info": "juiste temperatuur"
+					}, {
+						"id": 2,
+						"name": "Milkpak 2",
+						"temp": "12",
+						"infoState": "Error",
+						"info": "te warm"
+					}]
+				}
+			},
+			"jsonModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {
+					"data": []
 				}
 			}
 		},
 		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
+			"css": [{
+				"uri": "css/style.css"
+			}]
 		}
 	}
 }
