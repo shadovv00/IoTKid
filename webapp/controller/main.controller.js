@@ -51,7 +51,7 @@ sap.ui.define([
 					"&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
 
 				oResult = uModel.getProperty("/d/results/0");
-				oResult.name = "Milkpak " + (i + 1);
+				oResult.name = "Melkpak " + (i + 1);
 				this.adjustModel(oResult)
 
 				jsonData.push(oResult);

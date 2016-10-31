@@ -1,11 +1,11 @@
 <mvc:View controllerName="iotkid.controller.main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
 	<App id="appId">
 		<pages>
-			<Page title="{i18n>title}">
+			<Page title="Melkpakken monitor">
 				
 				<content>
 					
-						<TileContainer id="container" tileDelete="handleTileDelete" tiles="{jsonModel>/data}">
+					<TileContainer id="container" tileDelete="handleTileDelete" tiles="{jsonModel>/data}">
 						<StandardTile  icon="sap-icon://product"  number="{jsonModel>TEMP}" numberUnit="℃" title="{jsonModel>name}" info="{jsonModel>info}"
 							infoState="{jsonModel>infoState}" press="onPress"/>
 					</TileContainer>
