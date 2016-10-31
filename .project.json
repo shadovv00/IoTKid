@@ -40,8 +40,8 @@
     }
   },
   "mockpreview": {
-    "mockUri": "/tnv/iot/services/gensense.xsodata",
-    "metadataFilePath": "",
+    "mockUri": "/tnv/iot/services/gensense.xsodata/",
+    "metadataFilePath": "localService/metadata.xml",
     "loadJSONFiles": false,
     "loadCustomRequests": false,
     "mockRequestsFilePath": ""

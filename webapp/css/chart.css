@@ -42,3 +42,7 @@ circle.bottom-line-dot{
   stroke: grey;
   stroke-width:0.7px;
 }
+
+.legend rect {
+   opacity:0;
+  }

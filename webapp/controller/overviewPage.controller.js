@@ -12,14 +12,14 @@ sap.ui.define([
 		 * @memberOf iotkid.view.overviewPage
 		 */
 		onInit: function() {
-			
-			this.getView().addEventDelegate({
-				onBeforeShow: function(oEvent) {
-					var sItemPath = this.getView().data("sPath");
+			// this.getView().addEventDelegate({
+			// 	onBeforeShow: function(oEvent) {
+
+					
 					// var el = $("#overviewpage--chartContainer");
 					// this.buildChart("0059AC00001502B5");
-				}.bind(this)
-			});
+			// 	}.bind(this)
+			// });
 			
 			// this.webSocket = null;
 			// this.jsonModel = new sap.ui.model.json.JSONModel({
@@ -42,7 +42,11 @@ sap.ui.define([
 				
 			},
 			
-			buildChart: function(deviceId) {
+			buildChart: function() {
+							$("#overviewpage--chartContainer svg").remove();
+					var sItemPath = this.getView().data("sPath");
+					var deviceId=sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
+				
 				var uModel=new sap.ui.model.json.JSONModel();
 				var dateForChart=[];
 //for weekly
@@ -63,7 +67,7 @@ sap.ui.define([
 					+"?$filter=((DEVICEID eq '"+deviceId+"'))"
 					+"&$top=1&$orderby=CREATION_TS desc"
 					,{}, false, "GET");
-					console.log(uModel.getData());
+					// console.log(uModel.getData());
 				if (uModel.getData().d.results.length>0){
 					var minDate=new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2)-10800000);
 					uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
@@ -216,20 +220,37 @@ sap.ui.define([
 		 * @memberOf iotkid.view.overviewPage
 		 */
 			onAfterRendering: function() {
-				// onBeforeShow: function(oEvent) {
-
-					// var el = $("#overviewpage--chartContainer");
-					this.buildChart("0059AC00001502C2");
+					var that=this;
+					that.buildChart();
+					setInterval(function (){
+						that.buildChart();
+					}, 10000);				
+					this.getView().addEventDelegate({
+					onBeforeShow: function(oEvent) {
+						that.buildChart();
+						setInterval(function (){
+							that.buildChart();
+						}, 10000);
+					}.bind(this)
+					});
 			},
+			
+			// initBuidChart: function(){
+			// 	var that=this;
+			// 	this.buildChart();
+			// 	setInterval(function (){
+			// 		that.buildChart();
+			// 	}, 10000)				
+			// }
 
-		
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 		 * @memberOf iotkid.view.overviewPage
 		 */
-		//	onExit: function() {
-		//
-		//	}
+			// onExit: function() {
+				
+				
+			// }
 
 	});
 

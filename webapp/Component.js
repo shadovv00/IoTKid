@@ -24,8 +24,8 @@ sap.ui.define([
 			this.setModel(models.createDeviceModel(), "device");
 			
 			var oCore = sap.ui.getCore();
-			console.log(this.getModel("odataModel"));
-			console.log(this.getModel("jsonModel"));
+			// console.log(this.getModel("odataModel"));
+			// console.log(this.getModel("jsonModel"));
 			oCore.setModel(this.getModel("odataModel"), "odataModel");
 			oCore.setModel(this.getModel("jsonModel"), "jsonModel");
 			
