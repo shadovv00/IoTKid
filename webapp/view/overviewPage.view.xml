@@ -3,7 +3,9 @@
 		<Toolbar class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin">
 			<Button text="Home" press="onHome" type="Back"/>
 		</Toolbar >
-			<html:div id="chartContainer" style="width:1000px;  height:300px; ">
-				
-			</html:div>
+		<html:div id="chartContainer" style="width:98%;  height:300px; text-align: center; padding: 1%;">
+			
+		</html:div>
+		<FlexBox id="chartContainer2">
+		</FlexBox>
 </mvc:View>

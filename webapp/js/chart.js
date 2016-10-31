@@ -68,7 +68,7 @@ function createChart(container,receivedData){
 	var svg = d3.select("#"+classN)
 	    .append("svg")
 	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
+	    .attr("height", height + margin.top + margin.bottom+15)
 	    .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
@@ -119,10 +119,10 @@ function createChart(container,receivedData){
 	         .style("text-anchor", "middle")
 	         .text("Temperatuur & Max & Min");
 	          
-	// svg.selectAll("dot").data(data)
-	//   .enter().append("circle")
-	//   .attr("cx", function(d) { return x(d.date); })
-	//   .attr("cy", function(d) { return y(d.close); });
+	svg.selectAll("dot").data(data)
+	  .enter().append("circle")
+	  .attr("cx", function(d) { return x(d.date); })
+	  .attr("cy", function(d) { return y(d.close); });
 	   
 	// svg.selectAll("dot").data(data)
 	//   .enter().append("circle")
