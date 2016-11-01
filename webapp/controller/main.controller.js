@@ -37,7 +37,7 @@ sap.ui.define([
 
 		},
 
-		getData: function() {
+		getData: function(oData) {
 			var uModel = new sap.ui.model.json.JSONModel();
 			var jsonModel = sap.ui.getCore().getModel("jsonModel");
 
@@ -75,7 +75,7 @@ sap.ui.define([
 		},
 
 		adjustModel: function(oResult) {
-			 oResult.TEMP = Math.round(oResult.TEMP);
+			 oResult.TEMP = Math.round(+oResult.TEMP);
 			// oResult.TEMP = new Date().getMilliseconds();
 
 			var bHot = (oResult.TEMP >= 4 && oResult.TEMP <= 10);
@@ -86,14 +86,16 @@ sap.ui.define([
 		},
 
 		changeData: function(DEVICEID, TEMP) {
-			var that = this;
-			var aData = sap.ui.getCore().getModel("jsonModel").getData();
-			aData.forEach(function(item) {
-				if (item.DEVICEID === DEVICEID) {
+			var that = this
+			var jsonModel = sap.ui.getCore().getModel("jsonModel");
+			var oData = jsonModel.getData();
+			oData.data.forEach(function(item) {
+				if ((item.DEVICEID === DEVICEID) && TEMP !== undefined) {
 					item.TEMP = TEMP;
 					that.adjustModel(item);
-				}
+					}
 			});
+				jsonModel.setData(oData);
 		},
 
 		openConnection: function(oEvent) {
@@ -110,12 +112,16 @@ sap.ui.define([
 			// this.webSocket.send({
 			// 	cmd: 'cq'
 			// });
+			console.log("connected")
 		},
 
 		webSocketMessageRecieved: function(oEvent) {
 			var dataString = oEvent.getParameters().data;
 			var data = JSON.parse(dataString);
 			console.log(data);
+			
+			this.changeData(data.EUI, data.data.content.temp);
+					
 			// this.changeData (data.EUI, data.TEMP);
 			// if (data.cmd === "rx") {
 			// 	data.timestamp = new Date();
@@ -171,9 +177,9 @@ sap.ui.define([
 		onBeforeRendering: function() {
 			var that = this;
 			this.getData();
-				setInterval(function (){
-					that.getData();
-				}, 10000)
+				// setInterval(function (){
+				// 	that.getData();
+				// }, 10000)
 
 		},
 		onAfterRendering: function() {
