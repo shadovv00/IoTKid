@@ -30,7 +30,7 @@ sap.ui.define([
 			// this.getView().setModel(oModel);
 
 			this.data = [{
-				DEVICEID: "0059AC00001502B5"
+				DEVICEID: "0059AC00001502BD"
 			}, {
 				DEVICEID: "0059AC00001502C2"
 			}];

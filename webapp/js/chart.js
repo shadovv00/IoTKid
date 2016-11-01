@@ -105,7 +105,7 @@ function createChart(container,receivedData){
 					// $("#overviewpage--chartContainer").html('');
 	//змініть тут на значення топ і нижньої меж
 	var bottomY = "4";
-	var topY = "20";
+	var topY = "10";
 	
 	//30 - це відступ справа і зліва лінії від початку графіка 
 	var x = d3.time.scale().range([30, width-30]);
@@ -137,7 +137,7 @@ function createChart(container,receivedData){
 	
 
 	
-	// console.log(data);
+	console.log(data);
 	
 	// Scale the range of the data
 	x.domain(d3.extent(data, function (d) {
