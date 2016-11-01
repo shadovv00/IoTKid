@@ -112,7 +112,7 @@ function createChart(container,receivedData){
 	var y = d3.scale.linear().range([height, 0]);
 	
 	var xAxis = d3.svg.axis().scale(x)
-	    .orient("bottom").outerTickSize(0);
+	    .orient("bottom").outerTickSize(0).tickFormat(d3.time.format("%H:%M"));
 	
 	var yAxis = d3.svg.axis().scale(y)
 	    .orient("left").innerTickSize(-width)
