@@ -99,7 +99,8 @@ sap.ui.define([
 		openConnection: function(oEvent) {
 			// var inputBox = this.getView().byId("wsInput");
 			// var sUrl = inputBox.getValue();
-			var sUrl = "wss://www.italks.eu/app?id=BE7A005E&token=7B7lwnfs3m6rRJrfiGkKjA";
+			// var sUrl = "wss://www.italks.eu/app?id=BE7A005E&token=7B7lwnfs3m6rRJrfiGkKjA";
+			var sUrl = "wss://iotkita28d5365e.hana.ondemand.com/gen_connectors/iotwebsocketproxy/loriot";
 			this.webSocket = new WebSocket(sUrl).attachMessage(this.webSocketMessageRecieved, this).attachError(this.webSocketError,
 				this).attachOpen(this.webSocketOpened, this);
 		},
