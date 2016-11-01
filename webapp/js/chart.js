@@ -137,7 +137,7 @@ function createChart(container,receivedData){
 	
 
 	
-	console.log(data);
+	// console.log(data);
 	
 	// Scale the range of the data
 	x.domain(d3.extent(data, function (d) {
