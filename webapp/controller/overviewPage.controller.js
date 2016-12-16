@@ -36,53 +36,74 @@ sap.ui.define([
 			// this.getView().setModel(this.jsonModel, "jsonModel");
 			// this.getView().setModel(messageModel, "messageModel");
 			
-			},
-			onHome: function() {
-				sap.ui.getCore().byId("__xmlview0--appId").back();
-							// sap.ui.getCore().byId("__xmlview0").setBusy(true);
-
-				
-			},
 			
-			buildChart: function() {
-							$("#overviewpage--chartContainer svg").remove();
-					var sItemPath = this.getView().data("sPath");
-					var deviceId=sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
-				
-				var uModel=new sap.ui.model.json.JSONModel();
-				var dateForChart=[];
+			
+		},
+		onHome: function() {
+			sap.ui.getCore().byId("__xmlview0--appId").back();
+						// sap.ui.getCore().byId("__xmlview0").setBusy(true);
+
+			
+		},
+		onChangeDateFrom: function(oEvent) {
+			var ctrlDateFrom = oEvent.getSource();
+			var ctrlDateTo = this.byId("dateTo");
+			var oDateFrom = ctrlDateFrom.getDateValue();
+			var oDateTo = ctrlDateTo.getDateValue();
+			if(oDateTo && oDateFrom.getLocalTotalPassedDays() > oDateTo.getLocalTotalPassedDays()) {
+				ctrlDateTo.setDateValue(new Date(+oDateFrom));
+			}
+			this.buildChart();
+		},
+		onChangeDateTo: function(oEvent) {
+			var ctrlDateFrom = this.byId("dateFrom");
+			var ctrlDateTo = oEvent.getSource();
+			var oDateFrom = ctrlDateFrom.getDateValue();
+			var oDateTo = ctrlDateTo.getDateValue();
+			if(oDateFrom && oDateFrom.getLocalTotalPassedDays() > oDateTo.getLocalTotalPassedDays()) {
+				ctrlDateFrom.setDateValue(new Date(+oDateTo));
+			}
+			this.buildChart();
+		},
+		
+		buildChart: function() {
+			$("#overviewpage--chartContainer svg").remove();
+			var sItemPath = this.getView().data("sPath");
+			var deviceId = sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
+			var uModel = new sap.ui.model.json.JSONModel();
+			var dateForChart = [];
 //for weekly
-				// var nowDate=new Date().getTime();
-				// var iii, thisDate;
-				// for (iii = 0; iii < 7; iii++) { 
-				// 	thisDate=new Date(nowDate-86400000*iii);
-				// 	uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
-				// 		// +"?$filter=((DEVICEID eq '0059AC00001502BD')   and year(CREATION_TS) eq "+thisDate.getYear()+"  and month(CREATION_TS) eq "+thisDate.getMonth()+"  and day(CREATION_TS) eq "+thisDate.getDate()+"  )"
-				// 		+"?$filter=((DEVICEID eq '0059AC00001502BD')   and (CREATION_TS le datetime'"+thisDate.toISOString().slice(0, -5)+"')    )"
-				// 		+"&$top=1&$orderby=CREATION_TS desc"
-				// 		,{}, false, "GET");
-				// 	// console.log(uModel.getData().d.results[0]);
-				// 	dateForChart.push(uModel.getData().d.results[0])
-				// }
+			// var nowDate=new Date().getTime();
+			// var iii, thisDate;
+			// for (iii = 0; iii < 7; iii++) { 
+			// 	thisDate=new Date(nowDate-86400000*iii);
+			// 	uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+			// 		// +"?$filter=((DEVICEID eq '0059AC00001502BD')   and year(CREATION_TS) eq "+thisDate.getYear()+"  and month(CREATION_TS) eq "+thisDate.getMonth()+"  and day(CREATION_TS) eq "+thisDate.getDate()+"  )"
+			// 		+"?$filter=((DEVICEID eq '0059AC00001502BD')   and (CREATION_TS le datetime'"+thisDate.toISOString().slice(0, -5)+"')    )"
+			// 		+"&$top=1&$orderby=CREATION_TS desc"
+			// 		,{}, false, "GET");
+			// 	// console.log(uModel.getData().d.results[0]);
+			// 	dateForChart.push(uModel.getData().d.results[0])
+			// }
 //for last 3 hours				
+			uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
+				+"?$select=DEVICEID, CREATION_TS"
+				+"&$filter=((DEVICEID eq '"+deviceId+"'))"
+				+"&$top=1&$orderby=CREATION_TS desc"
+				,{}, false, "GET");
+				// console.log(uModel.getData());
+			if (uModel.getData().d.results.length>0){
+				var minDate=new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2)-10800000);
 				uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
-					+"?$select=DEVICEID, CREATION_TS"
-					+"&$filter=((DEVICEID eq '"+deviceId+"'))"
-					+"&$top=1&$orderby=CREATION_TS desc"
+					+"?$select=TEMP, CREATION_TS"
+					+"&$filter=((DEVICEID eq '"+deviceId+"')   and (CREATION_TS gt datetime'"+minDate.toISOString().slice(0, -5)+"')    )"
+					+"&$top=30000&$orderby=CREATION_TS desc"
 					,{}, false, "GET");
-					// console.log(uModel.getData());
-				if (uModel.getData().d.results.length>0){
-					var minDate=new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2)-10800000);
-					uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
-						+"?$select=TEMP, CREATION_TS"
-						+"&$filter=((DEVICEID eq '"+deviceId+"')   and (CREATION_TS gt datetime'"+minDate.toISOString().slice(0, -5)+"')    )"
-						+"&$top=30000&$orderby=CREATION_TS desc"
-						,{}, false, "GET");
-					dateForChart=uModel.getData().d.results;
-					// console.log(dateForChart);
-					createChart( $("#overviewpage--chartContainer"), dateForChart);
-				}
-			},
+				dateForChart=uModel.getData().d.results;
+				// console.log(dateForChart);
+				createChart( $("#overviewpage--chartContainer"), dateForChart);
+			}
+		},
 
 
 		// 	var sUrl = "wss://iotkita28d5365e.hana.ondemand.com/gen_connectors/iotwebsocketproxy/loriot";
@@ -224,24 +245,24 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf iotkid.view.overviewPage
 		 */
-			onAfterRendering: function() {
-					var that=this;
+		onAfterRendering: function() {
+			var that = this;
+			that.buildChart();
+			setInterval(function (){
+				that.buildChart();
+			}, 10000);				
+			this.getView().addEventDelegate({
+				onBeforeShow: function(oEvent) {
 					that.buildChart();
 					setInterval(function (){
 						that.buildChart();
-					}, 10000);				
-					this.getView().addEventDelegate({
-						onBeforeShow: function(oEvent) {
-							that.buildChart();
-							setInterval(function (){
-								that.buildChart();
-							}, 10000);
-						}.bind(this),
-						onAfterShow: function(oEvent) {
-							// sap.ui.getCore().byId("__xmlview0").setBusy(false);
-						}.bind(this)					
-					});
-			},
+					}, 10000);
+				}.bind(this),
+				onAfterShow: function(oEvent) {
+					// sap.ui.getCore().byId("__xmlview0").setBusy(false);
+				}.bind(this)					
+			});
+		}
 			
 			// initBuidChart: function(){
 			// 	var that=this;

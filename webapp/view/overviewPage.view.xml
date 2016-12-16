@@ -2,7 +2,32 @@
 	xmlns:html="http://www.w3.org/1999/xhtml">
 		<Toolbar class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin">
 			<Button text="Home" press="onHome" type="Back"/>
-		</Toolbar >
+		</Toolbar>
+		<Bar>
+			<contentLeft>
+				<Label
+					text="from:">
+				</Label>
+				<DatePicker
+					id="dateFrom"
+					width="145px"
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd/MM/yyyy"
+					change=".onChangeDateFrom"
+				/>
+				<Label
+					text="to:">
+					
+				</Label>
+				<DatePicker
+					id="dateTo"
+					width="145px"
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd/MM/yyyy"
+					change=".onChangeDateTo"
+				/>
+			</contentLeft>
+		</Bar>
 		<html:div id="chartContainer" style="width:98%;  height:300px; text-align: center; padding: 1%;">
 			
 		</html:div>
