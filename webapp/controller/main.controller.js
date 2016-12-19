@@ -149,29 +149,36 @@ sap.ui.define([
 			console.error(oEvent);
 		},
 
-		onPress: function(oEvent) {
+	onPress: function(oEvent) {
 			// sap.ui.getCore().byId("__xmlview0").setBusy(true);
+		var oItem = oEvent.getSource();
+		var sPath = oEvent.getSource().getBindingContext("jsonModel").getPath();
+		var jsonModel = sap.ui.getCore().getModel("jsonModel");
+		var sDeviceId = jsonModel.getProperty(sPath).DEVICEID;
+		console.log(sDeviceId);
+		var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+		oRouter.navTo("detail", {
+				deviceId: sDeviceId
+			});
+			// var oApp = sap.ui.getCore().byId("__xmlview0--appId");
 
-			var sPath = oEvent.getSource().getBindingContext("jsonModel").getPath();
-			var sId = "overviewpage";
+			// var overviewPage = oApp.getPage(sId);
 
-			var oApp = sap.ui.getCore().byId("__xmlview0--appId");
-
-			var overviewPage = oApp.getPage(sId);
-
-			if (overviewPage) {
-				overviewPage.data("sPath", sPath);
-				oApp.to(overviewPage);
-			} else {
-				overviewPage = sap.ui.view({
-					id: sId,
-					viewName: "iotkid.view.overviewPage",
-					type: sap.ui.core.mvc.ViewType.XML
-				});
-				overviewPage.data("sPath", sPath);
-				oApp.addPage(overviewPage);
-				oApp.to(overviewPage);
-			}
+			// if (overviewPage) {
+			// 	overviewPage.data("sPath", sPath);
+			// 	oApp.to(overviewPage);
+			// } else {
+			// 	overviewPage = sap.ui.view({
+			// 		id: sId,
+			// 		viewName: "iotkid.view.overviewPage",
+			// 		type: sap.ui.core.mvc.ViewType.XML
+			// 	});
+			// 	overviewPage.data("sPath", sPath);
+			// 	oApp.addPage(overviewPage);
+			// 	oApp.to(overviewPage);
+			// }
+			// var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			// oRouter.navTo("detail");
 
 		},
 		onBeforeRendering: function() {

@@ -29,7 +29,7 @@ sap.ui.define([
 			oCore.setModel(this.getModel("odataModel"), "odataModel");
 			oCore.setModel(this.getModel("jsonModel"), "jsonModel");
 			
-		
+			this.getRouter().initialize();
 		
 		}
 	});

@@ -12,15 +12,16 @@ sap.ui.define([
 		 * @memberOf iotkid.view.overviewPage
 		 */
 		onInit: function() {
-			// this.getView().addEventDelegate({
-			// 	onBeforeShow: function(oEvent) {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this)
+				// this.getView().addEventDelegate({
+				// 	onBeforeShow: function(oEvent) {
 
-					
-					// var el = $("#overviewpage--chartContainer");
-					// this.buildChart("0059AC00001502B5");
+			// var el = $("#overviewpage--chartContainer");
+			// this.buildChart("0059AC00001502B5");
 			// 	}.bind(this)
 			// });
-			
+
 			// this.webSocket = null;
 			// this.jsonModel = new sap.ui.model.json.JSONModel({
 			// 	data: [],
@@ -35,15 +36,23 @@ sap.ui.define([
 			// this.getView().setModel(locationModel, "locationModel");
 			// this.getView().setModel(this.jsonModel, "jsonModel");
 			// this.getView().setModel(messageModel, "messageModel");
-			
-			
-			
+
+		},
+		_onObjectMatched: function(oEvent) {
+			this.sDeviceID = oEvent.getParameter("arguments").deviceId;
 		},
 		onHome: function() {
-			sap.ui.getCore().byId("__xmlview0--appId").back();
-						// sap.ui.getCore().byId("__xmlview0").setBusy(true);
-
+			// sap.ui.getCore().byId("__xmlview0--appId").back();
+			// sap.ui.getCore().byId("__xmlview0").setBusy(true);
 			
+
+			// var oApp = sap.ui.getCore().byId("__xmlview0--app");
+			// var oCurrentPage = oApp.getCurrentPage();
+			// oCurrentPage.destroy();
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			clearInterval(this.oInterval);
+			oRouter.navTo("overview");
+
 		},
 		onChangeDateFrom: function(oEvent) {
 			var ctrlDateFrom = oEvent.getSource();
@@ -66,13 +75,16 @@ sap.ui.define([
 			this.buildChart();
 		},
 		
-		buildChart: function() {
-			$("#overviewpage--chartContainer svg").remove();
-			var sItemPath = this.getView().data("sPath");
-			var deviceId = sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
+			buildChart: function() {
+			$("div [id*='chartContainer'] svg").remove();
+		console.log("sd");
+			// var sItemPath = this.getView().data("sPath");
+			// var deviceId=sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
+			// var deviceId="0059AC00001502BD";                      
+
 			var uModel = new sap.ui.model.json.JSONModel();
 			var dateForChart = [];
-//for weekly
+			//for weekly
 			// var nowDate=new Date().getTime();
 			// var iii, thisDate;
 			// for (iii = 0; iii < 7; iii++) { 
@@ -85,23 +97,20 @@ sap.ui.define([
 			// 	// console.log(uModel.getData().d.results[0]);
 			// 	dateForChart.push(uModel.getData().d.results[0])
 			// }
-//for last 3 hours				
-			uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
-				+"?$select=DEVICEID, CREATION_TS"
-				+"&$filter=((DEVICEID eq '"+deviceId+"'))"
-				+"&$top=1&$orderby=CREATION_TS desc"
-				,{}, false, "GET");
-				// console.log(uModel.getData());
-			if (uModel.getData().d.results.length>0){
-				var minDate=new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2)-10800000);
-				uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
-					+"?$select=TEMP, CREATION_TS"
-					+"&$filter=((DEVICEID eq '"+deviceId+"')   and (CREATION_TS gt datetime'"+minDate.toISOString().slice(0, -5)+"')    )"
-					+"&$top=30000&$orderby=CREATION_TS desc"
-					,{}, false, "GET");
-				dateForChart=uModel.getData().d.results;
+			//for last 3 hours				
+			uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=DEVICEID, CREATION_TS" +
+				"&$filter=((DEVICEID eq '" + this.sDeviceID + "'))" + "&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
+			// console.log(uModel.getData());
+			if (uModel.getData().d.results.length > 0) {
+				var minDate = new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2) - 10800000);
+				uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=TEMP, CREATION_TS" + "&$filter=((DEVICEID eq '" +
+					this.sDeviceID + "')   and (CREATION_TS gt datetime'" + minDate.toISOString().slice(0, -5) + "')    )" +
+					"&$top=30000&$orderby=CREATION_TS desc", {}, false, "GET");
+				dateForChart = uModel.getData().d.results;
 				// console.log(dateForChart);
-				createChart( $("#overviewpage--chartContainer"), dateForChart);
+				var chartcontainer = $("div [id*='chartContainer']")[0];
+			
+				 createChart(chartcontainer, dateForChart);
 			}
 		},
 
@@ -248,13 +257,13 @@ sap.ui.define([
 		onAfterRendering: function() {
 			var that = this;
 			that.buildChart();
-			setInterval(function (){
+		this.oInterval = setInterval(function (){
 				that.buildChart();
 			}, 10000);				
 			this.getView().addEventDelegate({
 				onBeforeShow: function(oEvent) {
 					that.buildChart();
-					setInterval(function (){
+				that.oInterval = setInterval(function (){
 						that.buildChart();
 					}, 10000);
 				}.bind(this),
