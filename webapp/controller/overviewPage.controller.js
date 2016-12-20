@@ -59,6 +59,7 @@ sap.ui.define([
 			var ctrlDateTo = this.byId("dateTo");
 			var oDateFrom = ctrlDateFrom.getDateValue();
 			var oDateTo = ctrlDateTo.getDateValue();
+			this.dateFrom = oDateFrom;
 			if(oDateTo && oDateFrom.getLocalTotalPassedDays() > oDateTo.getLocalTotalPassedDays()) {
 				ctrlDateTo.setDateValue(new Date(+oDateFrom));
 			}
@@ -69,15 +70,20 @@ sap.ui.define([
 			var ctrlDateTo = oEvent.getSource();
 			var oDateFrom = ctrlDateFrom.getDateValue();
 			var oDateTo = ctrlDateTo.getDateValue();
+			this.dateTo = oDateTo;
 			if(oDateFrom && oDateFrom.getLocalTotalPassedDays() > oDateTo.getLocalTotalPassedDays()) {
 				ctrlDateFrom.setDateValue(new Date(+oDateTo));
 			}
 			this.buildChart();
 		},
 		
-			buildChart: function() {
+		dateFrom: null,
+		dateTo: null,
+
+
+		buildChart: function() {
 			$("div [id*='chartContainer'] svg").remove();
-		console.log("sd");
+			console.log("sd");
 			// var sItemPath = this.getView().data("sPath");
 			// var deviceId=sap.ui.getCore().getModel("jsonModel").getProperty(sItemPath).DEVICEID;                         
 			// var deviceId="0059AC00001502BD";                      
@@ -98,14 +104,16 @@ sap.ui.define([
 			// 	dateForChart.push(uModel.getData().d.results[0])
 			// }
 			//for last 3 hours				
-			uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=DEVICEID, CREATION_TS" +
-				"&$filter=((DEVICEID eq '" + this.sDeviceID + "'))" + "&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
+			// uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=DEVICEID, CREATION_TS" +
+			// 	"&$filter=((DEVICEID eq '" + this.sDeviceID + "'))" + "&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
 			// console.log(uModel.getData());
-			if (uModel.getData().d.results.length > 0) {
-				var minDate = new Date(uModel.getData().d.results[0].CREATION_TS.slice(6, -2) - 10800000);
-				uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=TEMP, CREATION_TS" + "&$filter=((DEVICEID eq '" +
-					this.sDeviceID + "')   and (CREATION_TS gt datetime'" + minDate.toISOString().slice(0, -5) + "')    )" +
-					"&$top=30000&$orderby=CREATION_TS desc", {}, false, "GET");
+			if (this.dateFrom && this.dateTo) {
+				uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" 
+					+ "?$select=TEMP, CREATION_TS" 
+					+ "&$filter=((DEVICEID eq '" + this.sDeviceID + "')  "
+					// + "and (CREATION_TS gt datetime'" + this.dateFrom.toISOString().slice(0, -5) + "')    )"
+					+ "and (CREATION_TS ge datetime'" + this.dateFrom.toISOString().slice(0, -5) + "' and CREATION_TS le datetime'" + this.dateTo.toISOString().slice(0, -5) + "'))"
+					+ "&$top=30000&$orderby=CREATION_TS desc", {}, false, "GET");
 				dateForChart = uModel.getData().d.results;
 				// console.log(dateForChart);
 				var chartcontainer = $("div [id*='chartContainer']")[0];
@@ -113,6 +121,43 @@ sap.ui.define([
 				 createChart(chartcontainer, dateForChart);
 			}
 		},
+
+		/**
+		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
+		 * This hook is the same one that SAPUI5 controls get after being rendered.
+		 * @memberOf iotkid.view.overviewPage
+		 */
+		onAfterRendering: function() {
+			
+			var uModel = new sap.ui.model.json.JSONModel();
+			uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" + "?$select=DEVICEID, CREATION_TS" +
+				"&$filter=((DEVICEID eq '" + this.sDeviceID + "'))" + "&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
+			// console.log(uModel.getData());
+			if (uModel.getData().d.results.length > 0) {
+				var dateTo=uModel.getData().d.results[0].CREATION_TS.slice(6, -2) * 1;
+				this.dateTo=new Date(dateTo);
+				this.dateFrom=new Date(dateTo - 10800000);
+				this.byId("dateTo").setDateValue(this.dateTo);
+				this.byId("dateFrom").setDateValue(this.dateFrom);
+			}			
+			
+			var that = this;
+			that.buildChart();
+			this.oInterval = setInterval(function (){
+				that.buildChart();
+			}, 10000);				
+			this.getView().addEventDelegate({
+				onBeforeShow: function(oEvent) {
+					that.buildChart();
+				that.oInterval = setInterval(function (){
+						that.buildChart();
+					}, 10000);
+				}.bind(this),
+				onAfterShow: function(oEvent) {
+					// sap.ui.getCore().byId("__xmlview0").setBusy(false);
+				}.bind(this)					
+			});
+		}
 
 
 		// 	var sUrl = "wss://iotkita28d5365e.hana.ondemand.com/gen_connectors/iotwebsocketproxy/loriot";
@@ -249,29 +294,6 @@ sap.ui.define([
 		//
 		//	},
 
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf iotkid.view.overviewPage
-		 */
-		onAfterRendering: function() {
-			var that = this;
-			that.buildChart();
-		this.oInterval = setInterval(function (){
-				that.buildChart();
-			}, 10000);				
-			this.getView().addEventDelegate({
-				onBeforeShow: function(oEvent) {
-					that.buildChart();
-				that.oInterval = setInterval(function (){
-						that.buildChart();
-					}, 10000);
-				}.bind(this),
-				onAfterShow: function(oEvent) {
-					// sap.ui.getCore().byId("__xmlview0").setBusy(false);
-				}.bind(this)					
-			});
-		}
 			
 			// initBuidChart: function(){
 			// 	var that=this;

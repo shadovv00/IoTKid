@@ -6,26 +6,40 @@
 		<Bar>
 			<contentLeft>
 				<Label
-					text="from:">
+					text="Select time range ">
 				</Label>
-				<DatePicker
+				<Label
+					text=" from: ">
+				</Label>
+				<DateTimePicker
 					id="dateFrom"
-					width="145px"
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd/MM/yyyy"
+					width="245px"
+					valueFormat="yyyy-MM-dd HH:mm:ss"
 					change=".onChangeDateFrom"
 				/>
 				<Label
-					text="to:">
+					text=" to: ">
 					
 				</Label>
-				<DatePicker
+				<DateTimePicker
 					id="dateTo"
-					width="145px"
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd/MM/yyyy"
+					width="245px"
+					valueFormat="yyyy-MM-dd HH:mm:ss"
 					change=".onChangeDateTo"
 				/>
+
+				<!--<Select-->
+				<!--	id="timeRangeId"-->
+				<!--	name="select time range"-->
+				<!--	change=".onChangeTimeRange"-->
+				<!--	>-->
+				<!--	<core:Item text="-" key="no range"/>-->
+				<!--	<core:Item text="1 minute" key="minute"/>-->
+				<!--	<core:Item text="1 hour" key="hour"/>-->
+				<!--	<core:Item text="1 day" key="day"/>-->
+				<!--	<core:Item text="1 week" key="week"/>-->
+				<!--	<core:Item text="1 mounth" key="mounth"/>-->
+				<!--</Select>-->
 			</contentLeft>
 		</Bar>
 		<html:div id="chartContainer" style="width:98%;  height:300px; text-align: center; padding: 1%;">
