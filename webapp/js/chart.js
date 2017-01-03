@@ -76,10 +76,12 @@ function d3_legend(g) {
 // })()
 
 function createChart(container,receivedData){
-	// console.log(receivedData);
+	 //console.log(receivedData);
 	// Масив даних
 	var data = [];
 	var iii;
+
+	
 		for (iii = 0; iii < receivedData.length; iii++) {
 			data.push({date: receivedData[iii].CREATION_TS, close: receivedData[iii].TEMP});
 		}	
@@ -87,11 +89,19 @@ function createChart(container,receivedData){
 	data.forEach(function (d) {
 	    // d.date = parseDate(d.date);
 	    d.date = new Date(+d.date.substring(6, 19));
+	    // maxDate = d.date.getTime();
+	    // if(maxDate < d.date.getTime())
+	    // maxDate = d.date.getTime();
 	    d.close = +d.close;
 	});
-	
-	
-	var margin = {
+
+		var maxDate = data[data.length - 1].date.getTime();
+		var minDate = data[0].date.getTime();
+		
+		var differance = minDate - maxDate;
+		
+		// console.log(data);
+		var margin = {
 	    top: 30,
 	    right: 150,
 	    bottom: 50,
@@ -110,10 +120,14 @@ function createChart(container,receivedData){
 	//30 - це відступ справа і зліва лінії від початку графіка 
 	var x = d3.time.scale().range([30, width-30]);
 	var y = d3.scale.linear().range([height, 0]);
-	
+	debugger;
 	var xAxis = d3.svg.axis().scale(x)
-	    .orient("bottom").outerTickSize(0).tickFormat(d3.time.format("%H:%M"));
-	
+	    .orient("bottom").outerTickSize(0);
+	    if(differance < 172800000)
+	    	  xAxis.tickFormat(d3.time.format("%H:%M"));
+	    else
+	    	  xAxis.tickFormat(d3.time.format("%a %d"));
+	    
 	var yAxis = d3.svg.axis().scale(y)
 	    .orient("left").innerTickSize(-width)
 	    .outerTickSize(0)
