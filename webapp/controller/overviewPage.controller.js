@@ -119,7 +119,7 @@ sap.ui.define([
 					+ "and (CREATION_TS ge datetime'" + this.dateFrom.toISOString().slice(0, -5) + "' and CREATION_TS le datetime'" + this.dateTo.toISOString().slice(0, -5) + "'))"
 					+ "&$top=30000&$orderby=CREATION_TS desc", {}, false, "GET");
 				dateForChart = uModel.getData().d.results;
-				console.log(dateForChart);
+				// console.log(dateForChart);
 				var chartcontainer = $("div [id*='chartContainer']")[0];
 			
 				createChart(chartcontainer, dateForChart, oDevInfo.TEMPMIN, oDevInfo.TEMPMAX );

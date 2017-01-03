@@ -29,13 +29,13 @@ sap.ui.define([
 			// var m2 = sap.ui.getCore().getModel();
 			// this.getView().setModel(oModel);
 			var uModel = new sap.ui.model.json.JSONModel();
-			uModel.loadData("/tnv/iot/services/coldchain.xsodata/Batches", {}, false, "GET");
-			console.log(uModel.getProperty("/d/results/"));
+			// uModel.loadData("/tnv/iot/services/coldchain.xsodata/Batches", {}, false, "GET");
+			// console.log(uModel.getProperty("/d/results/"));
 
 			uModel.loadData("/tnv/iot/services/coldchain.xsodata/Devices", {}, false, "GET");
 			
 			this.data = uModel.getProperty("/d/results/");
-			console.log(this.data);
+			// console.log(this.data);
 
 		},
 
@@ -57,14 +57,21 @@ sap.ui.define([
 
 				oResult = uModel.getProperty("/d/results/0");
 				oResult.name = "DEVICEID " + this.data[i].DEVICEID;
-				this.adjustModel(oResult,this.data[i])
+				
+				uModel.loadData("/tnv/iot/services/coldchain.xsodata/Batches" +
+					"?$filter=((DEVICEID eq '" + this.data[i].DEVICEID + "') )" +
+					"&$top=1&$orderby=ENDDATE desc", {}, false, "GET");
+				if (uModel.getProperty("/d/results/0")){
+					oResult.name = oResult.name + " BATCHID "+uModel.getProperty("/d/results/0/BATCHID");
+				}	
+				this.adjustModel(oResult,this.data[i]);
 
 				jsonData.push(oResult);
 
 			}
 			jsonModel.setProperty("/data", jsonData);
 			jsonModel.refresh(true);
-			console.log(jsonModel);
+			// console.log(jsonModel);
 			// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages?$top=1000&$orderby=CREATION_TS desc", {}, false, "GET");
 			// uModel.loadData( "/tnv/iot/services/gensense.xsodata/GenericMessages"
 			// +"?$filter=((DEVICEID eq "++")  or (DEVICEID eq "+thisKpiId+") )"
@@ -93,7 +100,7 @@ sap.ui.define([
 		},
 
 		changeData: function(DEVICEID, TEMP) {
-			var that = this
+			var that = this;
 			var jsonModel = sap.ui.getCore().getModel("jsonModel");
 			var oData = jsonModel.getData();
 			oData.data.forEach(function(item) {
