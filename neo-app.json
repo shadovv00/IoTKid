@@ -26,6 +26,14 @@
         "name": "IOTKIT"
       },
       "description": "IOTKIT"
+    },
+    {
+      "path": "/tnv/iot/services/coldchain.xsodata",
+      "target": {
+        "type": "destination",
+        "name": "IOTKITcoldchain"
+      },
+      "description": "IOTKITcoldchain"
     }
   ],
   "sendWelcomeFileRedirect": true,

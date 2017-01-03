@@ -28,12 +28,14 @@ sap.ui.define([
 			// sap.ui.getCore().setModel(oModel);
 			// var m2 = sap.ui.getCore().getModel();
 			// this.getView().setModel(oModel);
+			var uModel = new sap.ui.model.json.JSONModel();
+			uModel.loadData("/tnv/iot/services/coldchain.xsodata/Batches", {}, false, "GET");
+			console.log(uModel.getProperty("/d/results/"));
 
-			this.data = [{
-				DEVICEID: "0059AC00001502BD"
-			}, {
-				DEVICEID: "0059AC00001502C2"
-			}];
+			uModel.loadData("/tnv/iot/services/coldchain.xsodata/Devices", {}, false, "GET");
+			
+			this.data = uModel.getProperty("/d/results/");
+			console.log(this.data);
 
 		},
 
@@ -43,7 +45,10 @@ sap.ui.define([
 
 			var jsonData = [];
 			var oResult;
-
+			// uModel.loadData("/tnv/iot/services/coldchain.xsodata/Devices", {}, false, "GET");
+			// console.log(uModel.getProperty("/d/results/"));
+			// uModel.loadData("/tnv/iot/services/coldchain.xsodata/Batches", {}, false, "GET");
+			// console.log(uModel.getProperty("/d/results/"));
 			for (var i = 0; i < this.data.length; i++) {
 
 				uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" +
@@ -51,8 +56,8 @@ sap.ui.define([
 					"&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
 
 				oResult = uModel.getProperty("/d/results/0");
-				oResult.name = "Melkpak " + (i + 1);
-				this.adjustModel(oResult)
+				oResult.name = "DEVICEID " + this.data[i].DEVICEID;
+				this.adjustModel(oResult,this.data[i])
 
 				jsonData.push(oResult);
 
@@ -74,7 +79,7 @@ sap.ui.define([
 
 		},
 
-		adjustModel: function(oResult) {
+		adjustModel: function(oResult,oDeviceInfo) {
 			 oResult.TEMP = Math.round(+oResult.TEMP);
 			// oResult.TEMP = new Date().getMilliseconds();
 

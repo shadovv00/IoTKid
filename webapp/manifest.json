@@ -22,6 +22,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/metadata.xml"
 				}
+			},
+			"coldchain.xsodata": {
+				"uri": "/tnv/iot/services/coldchain.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/coldchain.xsodata/metadata.xml"
+				}
 			}
 		}
 	},
@@ -68,19 +76,22 @@
 			"odataModel": {
 				"type": "sap.ui.model.json.JSONModel",
 				"settings": {
-					"data": [{
-						"id": 1,
-						"name": "Milkpak 1",
-						"temp": "7",
-						"infoState": "Success",
-						"info": "juiste temperatuur"
-					}, {
-						"id": 2,
-						"name": "Milkpak 2",
-						"temp": "12",
-						"infoState": "Error",
-						"info": "te warm"
-					}]
+					"data": [
+						{
+							"id": 1,
+							"name": "Milkpak 1",
+							"temp": "7",
+							"infoState": "Success",
+							"info": "juiste temperatuur"
+						},
+						{
+							"id": 2,
+							"name": "Milkpak 2",
+							"temp": "12",
+							"infoState": "Error",
+							"info": "te warm"
+						}
+					]
 				}
 			},
 			"jsonModel": {
@@ -98,15 +109,18 @@
 				"controlId": "app",
 				"controlAggregation": "pages"
 			},
-			"routes": [{
-				"pattern": "",
-				"name": "overview",
-				"target": "overview"
-			}, {
-				"pattern": "detail/{deviceId}",
-				"name": "detail",
-				"target": "detail"
-			}],
+			"routes": [
+				{
+					"pattern": "",
+					"name": "overview",
+					"target": "overview"
+				},
+				{
+					"pattern": "detail/{deviceId}",
+					"name": "detail",
+					"target": "detail"
+				}
+			],
 			"targets": {
 				"overview": {
 					"viewName": "main"
@@ -117,9 +131,11 @@
 			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		}
 	},
 	"sap.platform.hcp": {
