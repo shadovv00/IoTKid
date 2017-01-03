@@ -108,6 +108,10 @@ sap.ui.define([
 			// 	"&$filter=((DEVICEID eq '" + this.sDeviceID + "'))" + "&$top=1&$orderby=CREATION_TS desc", {}, false, "GET");
 			// console.log(uModel.getData());
 			if (this.dateFrom && this.dateTo) {
+
+				uModel.loadData("/tnv/iot/services/coldchain.xsodata/Devices?$filter=DEVICEID eq '" + this.sDeviceID + "'  ", {}, false, "GET");
+				var oDevInfo=uModel.getData().d.results[0];
+				// console.log(oDevInfo);
 				uModel.loadData("/tnv/iot/services/gensense.xsodata/GenericMessages" 
 					+ "?$select=TEMP, CREATION_TS" 
 					+ "&$filter=((DEVICEID eq '" + this.sDeviceID + "')  "
@@ -115,10 +119,10 @@ sap.ui.define([
 					+ "and (CREATION_TS ge datetime'" + this.dateFrom.toISOString().slice(0, -5) + "' and CREATION_TS le datetime'" + this.dateTo.toISOString().slice(0, -5) + "'))"
 					+ "&$top=30000&$orderby=CREATION_TS desc", {}, false, "GET");
 				dateForChart = uModel.getData().d.results;
-				console.log(dateForChart.length);
+				console.log(dateForChart);
 				var chartcontainer = $("div [id*='chartContainer']")[0];
 			
-				 createChart(chartcontainer, dateForChart);
+				createChart(chartcontainer, dateForChart, oDevInfo.TEMPMIN, oDevInfo.TEMPMAX );
 			}
 		},
 

@@ -80,10 +80,12 @@ sap.ui.define([
 		},
 
 		adjustModel: function(oResult,oDeviceInfo) {
+			// console.log(oResult);
+			// console.log(oDeviceInfo);
 			 oResult.TEMP = Math.round(+oResult.TEMP);
 			// oResult.TEMP = new Date().getMilliseconds();
 
-			var bHot = (oResult.TEMP >= 4 && oResult.TEMP <= 10);
+			var bHot = (oResult.TEMP >= parseFloat(oDeviceInfo.TEMPMIN) && oResult.TEMP <= parseFloat(oDeviceInfo.TEMPMAX));
 
 			oResult.infoState = bHot ? "Success" : "Error";
 			oResult.info = bHot ? "juiste temperatuur" : "te warm";
