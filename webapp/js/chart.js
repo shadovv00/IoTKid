@@ -98,7 +98,7 @@ function createChart(container,receivedData){
 		var maxDate = data[data.length - 1].date.getTime();
 		var minDate = data[0].date.getTime();
 		
-		var differance = minDate - maxDate;
+		var timeDifferance = minDate - maxDate;
 		
 		// console.log(data);
 		var margin = {
@@ -120,10 +120,9 @@ function createChart(container,receivedData){
 	//30 - це відступ справа і зліва лінії від початку графіка 
 	var x = d3.time.scale().range([30, width-30]);
 	var y = d3.scale.linear().range([height, 0]);
-	debugger;
-	var xAxis = d3.svg.axis().scale(x)
+ 	var xAxis = d3.svg.axis().scale(x)
 	    .orient("bottom").outerTickSize(0);
-	    if(differance < 172800000)
+	    if(timeDifferance < 172800000)
 	    	  xAxis.tickFormat(d3.time.format("%H:%M"));
 	    else
 	    	  xAxis.tickFormat(d3.time.format("%a %d"));
