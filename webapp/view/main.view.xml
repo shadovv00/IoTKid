@@ -1,6 +1,6 @@
 <mvc:View controllerName="iotkid.controller.main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
 
-			<Page title="Melkpakken monitor">
+			<Page title="Batches and IPTA">
 				
 				<content>
 					

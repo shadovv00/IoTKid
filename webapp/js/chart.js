@@ -161,7 +161,7 @@ function createChart(container, receivedData, minTemp, maxTemp) {
 	else if (timeDifferance >= 86400000 && timeDifferance < 604800000)
 		xAxis.tickFormat(d3.time.format("%a %H:%M"));
 	else if (timeDifferance >= 604800000)
-		xAxis.tickFormat(d3.time.format("%a %d"));
+		xAxis.tickFormat(d3.time.format("%m/%d/%y"));
 	var yAxis = d3.svg.axis().scale(y)
 		.orient("left").innerTickSize(-width)
 		.outerTickSize(0)

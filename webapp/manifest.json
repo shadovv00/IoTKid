@@ -107,8 +107,8 @@
 				"viewType": "XML",
 				"viewPath": "iotkid.view",
 				"controlId": "app",
-				"controlAggregation": "pages"
-				, "clearTarget": true
+				"controlAggregation": "pages",
+				"clearTarget": true
 			},
 			"routes": [
 				{
