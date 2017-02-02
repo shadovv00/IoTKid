@@ -2,11 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml">
 		<Toolbar class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin">
 			<Button text="Home" press="onHome" type="Back"/>
-			<ToolbarSpacer></ToolbarSpacer>
-			<Title id="batchIdText" ></Title>
-			<ToolbarSpacer></ToolbarSpacer>
 		</Toolbar>
-		
 		<Bar>
 			<contentLeft>
 				<Label

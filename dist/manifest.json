@@ -1,0 +1,146 @@
+{
+    "_version": "1.1.0",
+    "sap.app": {
+        "_version": "1.1.0",
+        "id": "iotkid",
+        "type": "application",
+        "i18n": "",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        },
+        "dataSources": {
+            "gensense.xsodata": {
+                "uri": "/tnv/iot/services/gensense.xsodata/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "coldchain.xsodata": {
+                "uri": "/tnv/iot/services/coldchain.xsodata/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/coldchain.xsodata/metadata.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.1.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_hcb",
+            "sap_bluecrystal"
+        ]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "rootView": {
+            "viewName": "iotkid.view.App",
+            "type": "XML"
+        },
+        "dependencies": {
+            "minUI5Version": "1.30.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "odataModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {
+                    "data": [
+                        {
+                            "id": 1,
+                            "name": "Milkpak 1",
+                            "temp": "7",
+                            "infoState": "Success",
+                            "info": "juiste temperatuur"
+                        },
+                        {
+                            "id": 2,
+                            "name": "Milkpak 2",
+                            "temp": "12",
+                            "infoState": "Error",
+                            "info": "te warm"
+                        }
+                    ]
+                }
+            },
+            "jsonModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {
+                    "data": []
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "iotkid.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "clearTarget": true
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "overview",
+                    "target": "overview"
+                },
+                {
+                    "pattern": "detail/{deviceId}",
+                    "name": "detail",
+                    "target": "detail"
+                }
+            ],
+            "targets": {
+                "overview": {
+                    "viewName": "main"
+                },
+                "detail": {
+                    "viewName": "overviewPage"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        }
+    },
+    "sap.platform.hcp": {
+        "uri": "",
+        "_version": "1.1.0"
+    }
+}

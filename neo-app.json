@@ -34,6 +34,15 @@
         "name": "IOTKITcoldchain"
       },
       "description": "IOTKITcoldchain"
+    },
+    {
+      "path": "/sap/opu/odata",
+      "target": {
+        "type": "destination",
+        "name": "GoldFish",
+        "entryPath": "/sap/opu/odata"
+      },
+      "description": "GoldFish"
     }
   ],
   "sendWelcomeFileRedirect": true,

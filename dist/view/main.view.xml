@@ -1,24 +1,14 @@
-<mvc:View controllerName="iotkid.controller.main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:t="sap.ui.table">
+<mvc:View controllerName="iotkid.controller.main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
 
 			<Page title="Batches and IPTA">
 				
 				<content>
-					<List
-						items="{
-							path: 'odataModel>/zwgen_coldchainSet'
-						}" >
-						<ActionListItem
-							text="{odataModel>SensorId}"
-							press="onItemPress"
-							/>
-					</List>
 					
 					<TileContainer id="container" tileDelete="handleTileDelete" tiles="{jsonModel>/data}">
 						<StandardTile  icon="sap-icon://product"  number="{jsonModel>TEMP}" numberUnit="℃" title="{jsonModel>name}" info="{jsonModel>info}"
 							infoState="{jsonModel>infoState}" press="onPress"/>
 					</TileContainer>
-
-
+			
 				</content>
 			</Page>
 

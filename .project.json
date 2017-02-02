@@ -7,7 +7,7 @@
     "targetFolder": "dist",
     "sourceFolder": "webapp",
     "buildRequired": true,
-    "lastBuildDateTime": "Mon, 31 Oct 2016 11:22:23 GMT"
+    "lastBuildDateTime": "Tue, 10 Jan 2017 07:13:30 GMT"
   },
   "generation": [
     {
@@ -18,7 +18,7 @@
     {
       "templateId": "servicecatalog.connectivityComponent",
       "templateVersion": "0.0.0",
-      "dateTimeStamp": "Thu, 27 Oct 2016 06:51:24 GMT"
+      "dateTimeStamp": "Tue, 17 Jan 2017 05:09:59 GMT"
     }
   ],
   "codeCheckingTriggers": {
@@ -41,7 +41,7 @@
     }
   },
   "mockpreview": {
-    "mockUri": "/tnv/iot/services/gensense.xsodata/",
+    "mockUri": "/sap/opu/odata/sap/ZWGEN_SEGW_SRV",
     "metadataFilePath": "localService/metadata.xml",
     "loadJSONFiles": false,
     "loadCustomRequests": false,
@@ -50,6 +50,6 @@
   "hcpdeploy": {
     "account": "a28d5365e",
     "name": "iotkid",
-    "lastVersionWeTriedToDeploy": "0.5.0"
+    "lastVersionWeTriedToDeploy": "0.6.1"
   }
 }

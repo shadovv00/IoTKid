@@ -30,6 +30,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/coldchain.xsodata/metadata.xml"
 				}
+			},
+			"ZWGEN_SEGW_SRV": {
+				"uri": "/sap/opu/odata/sap/ZWGEN_SEGW_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZWGEN_SEGW_SRV/metadata.xml"
+				}
 			}
 		}
 	},
@@ -74,31 +82,25 @@
 		},
 		"models": {
 			"odataModel": {
-				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "ZWGEN_SEGW_SRV",
 				"settings": {
-					"data": [
-						{
-							"id": 1,
-							"name": "Milkpak 1",
-							"temp": "7",
-							"infoState": "Success",
-							"info": "juiste temperatuur"
-						},
-						{
-							"id": 2,
-							"name": "Milkpak 2",
-							"temp": "12",
-							"infoState": "Error",
-							"info": "te warm"
-						}
-					]
+					"defaultBindingMode": "TwoWay",
+					"useBatch": false,
+					"json": true
 				}
-			},
-			"jsonModel": {
+			}	
+			,"jsonModel": {
 				"type": "sap.ui.model.json.JSONModel",
 				"settings": {
 					"data": []
 				}
+			}	
+			,"batchModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {
+					"data": []
+				}
+				
 			}
 		},
 		"routing": {
@@ -117,7 +119,7 @@
 					"target": "overview"
 				},
 				{
-					"pattern": "detail/{deviceId}",
+					"pattern": "detail/{sBatchId}",
 					"name": "detail",
 					"target": "detail"
 				}
